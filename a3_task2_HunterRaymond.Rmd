@@ -10,6 +10,7 @@ output:
 ```{r setup, echo=TRUE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE,  results=FALSE)
 library(tidyverse)
+library(here)
 library(janitor)
 library(naniar)
 library(NbClust)
@@ -34,14 +35,21 @@ Creators: Santa Barbara Coastal LTER, & Melack, John M
 
 ```{r}
 chem_data <- read_csv(here("data", "sbc_lter_registered_stream_chemistry.csv")) %>% 
+  select(site_code, nh4_uM:spec_cond_uSpercm) %>% 
  replace_with_na_all(condition = ~.x == -999) %>% 
-  drop_na()
+  drop_na() 
 ```
 
 
 ```{r}
-chem_dist <- dist(chem_data, method = 'euclidean') ### look at upper and diag arguments
+chem_dist <- chem_data %>% 
+  group_by(site_code) %>% 
+  summarize(mean_nh4_uM = mean(nh4_uM),  mean_no3_uM = mean(no3_uM), mean_po4_uM = mean(po4_uM), mean_tdn_uM = mean(tdn_uM), mean_tdp_uM = mean(tdp_uM), mean_tpc_uM = mean(tpc_uM), mean_tpn_uM = mean(tpn_uM), mean_tpp_uM = mean(tpp_uM), mean_tss_mgperLiter = mean(tss_mgperLiter),mean_spec_cond_uSpercm = mean(spec_cond_uSpercm))
 
+```
+
+
+```{r}
 # Hierarchical clustering (complete linkage)
 chem_hc_complete <- hclust(chem_dist, method = "complete")
 
@@ -50,6 +58,10 @@ plot(chem_hc_complete, cex = 0.6, hang = -1)
 
 ```
 
+```{r}
+chem_cut_hc <- cutree(chem_hc_complete, 6)
+table(chem_cut_hc, chem_data$site_code)
+```
 
 
 

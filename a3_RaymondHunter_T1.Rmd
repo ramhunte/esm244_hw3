@@ -9,5 +9,143 @@ output:
 
 ```{r setup, echo=TRUE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE,  results=FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(dplyr)
+library(ggfortify)
+library(patchwork)
+library(plotly)
 ```
+
+
+
+### Taks 1 
+
+#### Introduction 
+
+The goal of this paper is to explore the relationship between between physical characteristics of across the globe and how they relate to one another. To do this, we use data encompassing a variety of different physical environmental variables such as temperature, precipitation, elevation, etc. pertaining to each country and analyze these variables using a principle components analysis (PCA). All data was collected using satellite imagery from the Google Earth Engine (https://earthengine.google.com/). The majority of the data was collected from finding the mean value of each variable at a scale of about 10km.
+
+**Reference:** Google Earth Engine. https://earthengine.google.com/ accessed February 26, 2023.
+
+
+
+
+
+
+####  Principla component analysis (PCA)
+
+```{r}
+#reading in the data
+world_vars <- read_csv(here("data", "world_env_vars.csv")) %>% 
+  select(elevation, cropland_cover, rain_mean_annual, temp_annual_range, temp_mean_annual, wind, cloudiness) %>% 
+  #dropping rows with NAs (to ensure) after selecting the specific variables) to ensure that the PCA runs 
+  drop_na() 
+
+#creating a  PCA 
+world_pca <- world_vars %>%
+  #rescaling to PCA axis
+  scale() %>%
+  #runnningn a PCA 
+  prcomp()
+
+# world_pca$rotation
+```
+
+
+
+
+
+```{r,  fig.cap="*Figure 1*: A principle components analysis showing different environmental variables on each axis to understand how specific variables are correlated to one another. All NA values in the selected variables were removed to ensure maintain consistency of the PCA."}
+#plotting the PCA
+autoplot(world_pca,
+     	data = world_vars,
+     	loadings = TRUE,
+     	colour = 'blue',
+     	loadings.label = TRUE,
+     	loadings.colour = "black",
+     	loadings.label.colour = "black",
+     	loadings.label.vjust = -0.5
+     	) +
+  theme_minimal()
+```
+
+
+Bullet points 
+
+
+
+
+
+### Summary 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
