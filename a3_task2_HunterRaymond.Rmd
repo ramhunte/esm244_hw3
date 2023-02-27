@@ -1,0 +1,117 @@
+---
+title: "a3_task2_RaymondHunter"
+author: "Ray Hunter"
+date: "2023-02-27"
+output:   
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, echo=TRUE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE,  results=FALSE)
+library(tidyverse)
+library(janitor)
+library(naniar)
+library(NbClust)
+library(cluster)
+library(factoextra)
+library(dendextend)
+library(ggdendro)
+```
+
+## Introduction 
+
+SBC LTER: Stream chemistry in the Santa Barbara Coastal drainage area, ongoing since 2000
+Creators: Santa Barbara Coastal LTER, & Melack, John M
+
+**Citation:** Santa Barbara Coastal LTER and J. Melack. 2019. SBC LTER: Land: Stream chemistry in the Santa Barbara Coastal drainage area, ongoing since 2000 ver 16. Environmental Data Initiative. https://doi.org/10.6073/pasta/67a558a24ceed9a0a5bf5e46ab841174. 
+
+
+
+
+## Dendrogram
+
+
+```{r}
+chem_data <- read_csv(here("data", "sbc_lter_registered_stream_chemistry.csv")) %>% 
+ replace_with_na_all(condition = ~.x == -999) %>% 
+  drop_na()
+```
+
+
+```{r}
+chem_dist <- dist(chem_data, method = 'euclidean') ### look at upper and diag arguments
+
+# Hierarchical clustering (complete linkage)
+chem_hc_complete <- hclust(chem_dist, method = "complete")
+
+# Plot it (base plot):
+plot(chem_hc_complete, cex = 0.6, hang = -1)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Summary 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+---
+title: "a3_HunterRaymond_T1"
+author: "Ray Hunter"
+date: "2023-02-27"
+output:   
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, echo=TRUE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE,  results=FALSE)
+```
+
